@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://api.themoviedb.org">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/4cc3961380.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/scss/base.scss">
+    <link rel="stylesheet" href="src/scss/main.scss">
+    <link rel="stylesheet" href="src/scss/header.scss">
+    <link rel="stylesheet" href="src/scss/side-bar.scss">
+    <link rel="icon" href="src/img/icons/icon.png">
+
+    <title>IMDB REIMAGINED</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <main>
+            <header>
+                <div class="toggle-side-bar">
+                    <i id="toggle-side-bar" class="fas fa-ellipsis-v"></i>
+                </div>
+                <div class="header-container">
+                    <div class="notifications-area">
+                        <i id="alerts" class="far fa-bell"></i>
+                        <div id="alertsBox" class="notifications-area__alerts-box">
+                            <p>
+                                No new notifications.
+                            </p>
+                        </div>
+                        <i id="messages" class="far fa-comment-alt"></i>
+                        <div id="messagesBox" class="notifications-area__messages-box">
+                            <p>
+                                You have 0 new messages.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="profile-area">
+                        <div class="profile-area__picture">
+                            <img src="src/img/icons/user-pfp.jpg" alt="blank user profile">
+                        </div>
+                        <div class="profile-area__user-name">
+                            <p>User Name</p>
+                            <p class="imdb-text">IMDB Pro</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div id="browse-container" class="browse-container container container--visible">
+                <div id="now-playing" class="now-playing">
+                    <h1>Now In Theaters</h1>
+                    <div class="now-playing__container" id="now-playing-container">
+                    </div>
+                </div>
+                <div class="landing-page-gallery">
+                    <div class="landing-page-gallery__sort-area">
+                        <div class="properties-drop-down">
+                            <h4>Sort By:</h4>
+                            <span id="sort-by-placeholder" class="drop-down-current-value" data-parameter="popularity.desc">Most Popular</span>
+                            <span class="toggler-icon" id="sort-menu-toggler-icon"></span>
+                            <ul id="sort-by-menu" class="drop-down-menu">
+                                <li class="sort-value" data-value="release_date.desc">New/Upcoming</li>
+                                <li class="sort-value" data-value="popularity.desc" selected>Most Popular</li>
+                            </ul>
+                        </div>
+                        <div class="properties-drop-down">
+                            <h4>Show:</h4>
+                            <span id="ratings-placeholder" class="drop-down-current-value" data-parameter="vote_count.desc">Highest To Lowest</span>
+                            <span class="toggler-icon toggler-icon--for-rating" id="ratings-menu-toggler-icon"></span>
+                            <ul id="ratings-menu" class="drop-down-menu">
+                                <li class="ratings-value" data-value="vote_count.desc">Highest To Lowest</li>
+                                <li class="ratings-value" data-value="vote_count.asc">Lowest To Highest</li>
+                            </ul>
+                        </div>
+                        <div class="search-by-year-container">
+                            <label for="sort-by-period">By Year:</label>
+                            <input type="text" id="sort-byy-period" placeholder="Any..." class="drop-down-current-value text-input" data-parameter="primary_release_year=">
+                            <button class="clear-year-filter-button" id="clear-year-filter-button">Reset</button>
+                        </div>
+                    </div>
+                    <div class="grid-container" id="landing-page-container">
+                    </div>
+                </div>
+            </div>
+            <div id="movies-container" class="movies-container container">
+                <div>
+                    <div id="movies-search-field-container" class="search-field-container">
+                        <form id="movies-search-form" class="search-field-container__form-section">
+                            <label for="movies-search-field">Search for Movies:</label>
+                            <input id="movies-search-field" type="text" autocomplete="off">
+                            <div class="search-icon-container"><i class="fas fa-search"></i></div>
+                        </form>
+                    </div>
+                </div>
+                <div class="grid-container" id="movies-results">
+                </div>
+            </div>
+            <div id="tvshows-container" class="tvshows-container container">
+                <div>
+                    <div id="tv-search-field-container" class="search-field-container">
+                        <form id="tv-search-form" class="search-field-container__form-section">
+                            <label for="tv-search-field">Search for TV Shows:</label>
+                            <input id="tv-search-field" type="text" autocomplete="off">
+                            <div class="search-icon-container"><i class="fas fa-search"></i></div>
+                        </form>
+                    </div>
+                </div>
+                <div id="tvshows-results" class="grid-container"></div>
+            </div>
+            <div id="celebs-container" class="celebs-container container">
+                <div>
+                    <div id="celebs-search-field-container" class="search-field-container">
+                        <form id="celebs-search-form" class="search-field-container__form-section">
+                            <label for="celebs-search-field">Search for Celebrities:</label>
+                            <input id="celebs-search-field" type="text" autocomplete="off">
+                            <div class="search-icon-container"><i class="fas fa-search"></i></div>
+                        </form>
+                    </div>
+                </div>
+                <div id="celebs-results" class="rows-container">
+                    <!-- <div class="generic-celeb-container">
+                        <div class="generic-celeb-container__img">IMAGE</div>
+                        <div>INFO
+                            <div>name</div>
+                            <div>career</div>
+                            <div>pop</div>
+                            <div>knownfor</div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div id="current-movie" class="current-movie current-movie--visible">
+            </div>
+        </main>
+        <aside class="side-bar side-bar--visible">
+            <nav class="side-bar__container">
+                <div class="side-bar__logo">
+                    <div>
+                        <img src="src/img/icons/side-bar-logo.png" alt="IMDB logo">
+                    </div>
+                </div>
+                <div class="side-bar__menu">
+                    <ul>
+                        <h5>Menu</h5>
+                        <li>
+                            <i class="side-bar-icon current-page fas fa-infinity">
+                            </i>
+                            <span data-toggler-target="browse-container">
+                                Browse
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="side-bar__menu">
+                    <ul>
+                        <h5>Search For</h5>
+                        <li>
+                            <i class="side-bar-icon fas fa-video">
+                            </i>
+                            <span data-toggler-target="movies-container">
+                                Movies
+                            </span>
+                        </li>
+                        <li>
+                            <i class="side-bar-icon fas fa-tv">
+
+                            </i>
+                            <span data-toggler-target="tvshows-container">
+                                TV Shows
+                            </span>
+                        </li>
+                        <li>
+                            <i class="side-bar-icon fas fa-portrait">
+
+                            </i>
+                            <span data-toggler-target="celebs-container">
+                                Celebrities
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="side-bar__menu">
+                    <ul class="side-bar__menu__credits-icons">
+                        <h5>Useful links</h5>
+                        <li>
+                            <i class="fab fa-dribbble"></i>
+                            <span><a href="https://dribbble.com/shots/15830585-IMDb-Redesign-2021" target="_blank">The Design</a></span>
+                        </li>
+                        <li>
+                            <i class="fab fa-github"></i>
+                            <span><a href="https://github.com/Yuniac/Movies-App" target="_blank">Source Code</a></span>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+    </div>
+    <div>
+    </div>
+    <div id="overlay-div" class="overlay-div"></div>
+    <script src="src/js/index.js"></script>
+    <script src="src/js/helpers.js" type="module"></script>
+    <script src="src/js/routingContent.js"></script>
+</body>
+
+</html>
